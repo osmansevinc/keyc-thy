@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.controller;
 
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +21,9 @@ public class MyController {
 
 
     @GetMapping(path = "/users")
-    public String getUserInfo(Model model) {
-
-        KeycloakAuthenticationToken authentication = (KeycloakAuthenticationToken) SecurityContextHolder.getContext()
+    public ModelAndView getUserInfo(Model model) {
+    	ModelAndView view = new ModelAndView();
+     /*   KeycloakAuthenticationToken authentication = (KeycloakAuthenticationToken) SecurityContextHolder.getContext()
                 .getAuthentication();
 
         final Principal principal = (Principal) authentication.getPrincipal();
@@ -43,8 +44,9 @@ public class MyController {
         }
 
         model.addAttribute("username", principal.getName());
-        model.addAttribute("dob", dob);
-        return "userInfo";
+        model.addAttribute("dob", dob); */
+    	view.setViewName("home/homeSignedIn");
+        return view;
     }
 
     @GetMapping(path = "/logout")

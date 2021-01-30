@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sign In</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}"/>
+    <link href="../../css/core.css" rel="stylesheet" media="screen" th:href="@{/css/core.css}" />
+</head>
+<body>
+<div id="signIn">
+<form class="form-narrow form-horizontal">
+    <th:block th:if="${param.error != null}">
+        <div th:replace="fragments/alert :: alert (type='danger', message='Sign in error. Please try again.')">Alert</div>
+    </th:block>
+    <fieldset>
+        <legend>Please Sign In</legend>
+        <div class="form-group">
+            <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+            <div class="col-lg-10">
+                <input type="text" class="form-control" id="inputEmail" placeholder="Email" v-model="userData.username"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+            <div class="col-lg-10">
+                <input type="password" class="form-control" id="inputPassword" placeholder="Password" v-model="userData.password" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="_spring_security_remember_me" /> Remember me
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button type="submit" class="btn btn-default" @click.prevent="signInMethod">Sign in</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <p>New here? <a href="signup" th:href="@{/signup}">Sign Up</a></p>
+            </div>
+        </div>
+    </fieldset>
+</form>
+</div>
+
+<script src="webjars/vue/vue.min.js"></script>
+<script src="webjars/axios/dist/axios.min.js"></script>  
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#signIn',
+        data: {
+           userData : {
+				username : '',
+				password : '',
+				token : ''
+			}
+        },
+  	methods:{
+    	signInMethod() {
+      		axios.post('http://localhost:8081/getToken', {
+    				username: this.userData.username,
+    				password: this.userData.password
+  			}).
+  			then(response => {
+  				console.log(response.data);
+  				localStorage.setItem("token", response.data);
+  				//window.location.href = "http://localhost:8081/";
+			})
+  			.catch(function (error) {
+    			alert(error);
+  			});
+    	}
+  	}
+    });
+</script>
+
+</body>
+</html>
