@@ -1,6 +1,6 @@
 package com.example.demo.data;
 
-public class UserSingUpDTO {
+public class UserRegisterDTO {
 	
 	private String username;
 	

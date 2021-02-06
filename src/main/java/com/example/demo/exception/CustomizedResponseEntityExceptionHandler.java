@@ -2,6 +2,8 @@ package com.example.demo.exception;
 
 import java.util.Date;
 
+import javax.ws.rs.BadRequestException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,7 +31,16 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
 				request.getDescription(false));
 
-		return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+		return new ResponseEntity(exceptionResponse, HttpStatus.UNAUTHORIZED);
+	}
+	
+	@ExceptionHandler(BadRequestException.class)
+	public final ResponseEntity<Object> handleBadRequestException(BadRequestException ex, WebRequest request) {
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+				request.getDescription(false));
+
+		return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
 	}
 
 }

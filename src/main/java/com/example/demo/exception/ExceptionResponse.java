@@ -2,6 +2,8 @@ package com.example.demo.exception;
 
 import java.util.Date;
 
+import org.springframework.http.HttpStatus;
+
 public class ExceptionResponse {
 	
 	private Date timestamp;
