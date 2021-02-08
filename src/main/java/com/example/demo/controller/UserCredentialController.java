@@ -49,7 +49,7 @@ public class UserCredentialController {
 		} catch (Exception e) {
 			throw new Exception();
 		}
-		return new ResponseEntity<>(result, HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.CREATED);
 	}
 
 }
