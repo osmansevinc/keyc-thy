@@ -1,17 +1,33 @@
 package com.example.demo.data;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class UserRegisterDTO {
-	
+
+	@Size(min = 4, max = 40)
+	@NotEmpty
 	private String username;
-	
+
+	@Size(min = 1, max = 40)
+	@NotEmpty
 	private String firstName;
-	
+
+	@Size(min = 1, max = 40)
+	@NotEmpty
 	private String lastName;
-	
+
+	@Email
+	@NotEmpty
 	private String email;
-	
+
+	@NotEmpty
+	@Size(min = 4, max = 40)
 	private String password;
-	
+
+	@NotEmpty
+	@Size(min = 4, max = 40)
 	private String confirmPassword;
 
 	public String getUsername() {
@@ -61,6 +77,5 @@ public class UserRegisterDTO {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-	
 
 }

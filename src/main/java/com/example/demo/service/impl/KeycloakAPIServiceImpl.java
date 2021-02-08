@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import javax.ws.rs.core.Response;
-
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
@@ -13,18 +11,13 @@ import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
-import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
-import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.config.CustomJacksonProvider;
-import com.example.demo.controller.UserCredentialController;
 import com.example.demo.data.UserCredential;
 import com.example.demo.data.UserRegisterDTO;
 import com.example.demo.service.service.IKeycloakAPIService;
@@ -38,7 +31,7 @@ public class KeycloakAPIServiceImpl implements IKeycloakAPIService {
 	private Environment env;
 
 	public String getAccessToken(UserCredential user) throws Exception {
-		KeycloakBuilder keycloakBuilder = this.newKeycloakBuilderWithPasswordCredentials(user.getUsername(),
+		KeycloakBuilder keycloakBuilder = this.newKeycloakBuilderWithPasswordCredentials(user.getEmail(),
 				user.getPassword());
 		return keycloakBuilder.build().tokenManager().getAccessToken().getToken();
 	}
@@ -154,9 +147,9 @@ public class KeycloakAPIServiceImpl implements IKeycloakAPIService {
 			// Create user (requires manage-users role)
 			response = usersRessource.create(user);
 			System.out.printf("Repsonse: %s %s%n", response.getStatus(), response.getStatusInfo());
-			if(response != null && response.getStatus() != 201)
+			if (response != null && response.getStatus() != 201)
 				return response.getStatus();
-			
+
 			String userId = CreatedResponseUtil.getCreatedId(response);
 
 			System.out.printf("User created with userId: %s%n", userId);

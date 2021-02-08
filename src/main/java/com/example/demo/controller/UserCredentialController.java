@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import javax.validation.Valid;
 import javax.ws.rs.NotAuthorizedException;
 
 import org.slf4j.Logger;
@@ -24,11 +25,11 @@ public class UserCredentialController {
 	private IKeycloakAPIService keycloakService;
 
 	@PostMapping("token")
-	public String getToken(@RequestBody UserCredential user) throws Exception {
+	public String getToken(@Valid @RequestBody UserCredential user) throws Exception {
 		String token = "";
 		try {
 			token = this.keycloakService.getAccessToken(user);
-			if (token == null || token.equals(""))
+			if (token == null || "".equals(token))
 				throw new TokenNotFoundException("User Login Failed");
 		} catch (NotAuthorizedException e) {
 			logger.error("[UserCredentialController][getToken][NotAuthorizedException][error] : {}", e);
@@ -41,7 +42,7 @@ public class UserCredentialController {
 	}
 
 	@PostMapping("registerNewUserAccount")
-	public ResponseEntity registerNewUserAccount(@RequestBody UserRegisterDTO user) throws Exception {
+	public ResponseEntity registerNewUserAccount(@Valid @RequestBody UserRegisterDTO user) throws Exception {
 		int result = 0;
 		try {
 			result = keycloakService.registerNewUserAccount(user);
