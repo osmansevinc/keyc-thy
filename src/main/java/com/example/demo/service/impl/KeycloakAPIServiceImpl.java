@@ -164,7 +164,7 @@ public class KeycloakAPIServiceImpl implements IKeycloakAPIService {
 
 			// Set password credential
 			userResource.resetPassword(passwordCred);
-
+			userResource.sendVerifyEmail();
 		} catch (Exception e) {
 			logger.error("[KeycloakAPIServiceImpl][registerNewUserAccount][error] : : {} ", e);
 			throw new Exception();
